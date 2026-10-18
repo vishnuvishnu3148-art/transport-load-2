@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Load Shift</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #1f2937;
+      background: #f3f7f4;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .login-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #12372d;
+    }
+
+    .intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      color: white;
+      background: linear-gradient(145deg, #12372d, #247253);
+    }
+
+    .intro h1 {
+      margin: 0 0 16px;
+      font-size: clamp(38px, 6vw, 64px);
+    }
+
+    .intro p {
+      max-width: 480px;
+      color: #d6e8df;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .login-area {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #f7faf8;
+    }
+
+    .login-card,
+    .panel,
+    .summary-card {
+      border: 1px solid #dce6df;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 5px 16px rgba(16, 44, 39, 0.06);
+    }
+
+    .login-card {
+      width: min(100%, 400px);
+      padding: 32px;
+    }
+
+    .login-card h2 {
+      margin: 0 0 8px;
+      color: #12372d;
+    }
+
+    .login-card > p {
+      margin: 0 0 24px;
+      color: #65736e;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5ce;
+      border-radius: 8px;
+    }
+
+    input:focus {
+      outline: 2px solid #4b9a70;
+      border-color: transparent;
+    }
+
+    .primary-button {
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 8px;
+      color: white;
+      background: #176b52;
+      font-weight: bold;
+    }
+
+    .primary-button:hover {
+      background: #10573f;
+    }
+
+    .login-card .primary-button {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .error,
+    .message {
+      min-height: 20px;
+      color: #b42318;
+      font-size: 14px;
+    }
+
+    .demo {
+      padding: 12px;
+      border-radius: 8px;
+      background: #f1f6f2;
+      color: #4c6057;
+      font-size: 14px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 5%;
+      color: white;
+      background: #12372d;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .nav-links button,
+    .navbar > button {
+      padding: 9px 14px;
+      border: 0;
+      border-radius: 7px;
+      color: white;
+      background: transparent;
+      font-weight: 600;
+    }
+
+    .nav-links button:hover,
+    .nav-links button[aria-current="page"] {
+      background: #28785b;
+    }
+
+    .navbar > button {
+      background: #28785b;
+    }
+
+    .page-section {
+      min-height: 55vh;
+    }
+
+    .home-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.95fr);
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 24px;
+      padding: clamp(24px, 5vw, 46px);
+      overflow: hidden;
+      border-radius: 18px;
+      color: white;
+      background:
+        radial-gradient(ellipse at 85% 15%, rgba(141, 211, 164, 0.22), transparent 38%),
+        linear-gradient(135deg, #12372d, #247253);
+    }
+
+    .home-hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: -0.04em;
+    }
+
+    .home-hero p {
+      max-width: 540px;
+      color: #d6e8df;
+      line-height: 1.65;
+    }
+
+    .home-hero .eyebrow {
+      margin-bottom: 10px;
+      color: #bce3c8;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .hero-actions .secondary-button {
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 8px;
+      color: white;
+      background: rgba(255, 255, 255, 0.12);
+      font-weight: 700;
+    }
+
+    .hero-actions .secondary-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-art {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .hero-image-card {
+      min-width: 0;
+      margin: 0;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-image-card svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-image-card figcaption {
+      padding: 8px 2px 0;
+      color: #e2f2e9;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .page-intro {
+      margin-bottom: 22px;
+    }
+
+    .page-intro h1 {
+      margin: 0 0 8px;
+      color: #12372d;
+    }
+
+    .page-intro p {
+      margin: 0;
+      color: #65736e;
+      line-height: 1.55;
+    }
+
+    .vehicle-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .vehicle-card {
+      padding: 18px;
+      border: 1px solid #dce6df;
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .vehicle-card h3 {
+      margin: 0 0 8px;
+      color: #12372d;
+    }
+
+    .vehicle-card p {
+      margin: 7px 0;
+      color: #65736e;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .vehicle-card strong {
+      color: #176b52;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 14px;
+    }
+
+    .form-grid .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-grid label {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .form-grid input,
+    .form-grid select {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5ce;
+      border-radius: 8px;
+      background: white;
+      font: inherit;
+    }
+
+    .estimate {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 10px;
+      background: #edf6f0;
+    }
+
+    .estimate span {
+      display: block;
+      color: #4c6057;
+      font-size: 14px;
+    }
+
+    .estimate strong {
+      display: block;
+      margin-top: 6px;
+      color: #12372d;
+      font-size: 28px;
+    }
+
+    .form-note {
+      color: #65736e;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .success-message {
+      color: #176b52;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .payment-panel {
+      margin-top: 20px;
+      border: 1px solid #cce5d3;
+      background: #f5fbf6;
+    }
+
+    .payment-summary {
+      margin: 14px 0;
+      padding: 14px;
+      border-radius: 9px;
+      background: white;
+      color: #34483e;
+      line-height: 1.7;
+    }
+
+    .upi-button {
+      display: inline-block;
+      margin-top: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .upi-button[aria-disabled="true"] {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .payment-message {
+      min-height: 20px;
+      color: #b42318;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .dashboard {
+      width: min(1100px, 100%);
+      margin: auto;
+      padding: 32px 24px 50px;
+    }
+
+    .welcome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .welcome h1 {
+      margin: 0 0 8px;
+      color: #12372d;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: #65736e;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .summary-card {
+      padding: 18px;
+    }
+
+    .summary-card span {
+      color: #65736e;
+      font-size: 14px;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-top: 8px;
+      color: #12372d;
+      font-size: 26px;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      margin-bottom: 18px;
+      padding: 20px;
+    }
+
+    .panel h2 {
+      margin: 0 0 6px;
+      color: #12372d;
+      font-size: 20px;
+    }
+
+    .panel-description {
+      margin: 0 0 16px;
+      color: #65736e;
+      font-size: 14px;
+    }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #edf1ee;
+    }
+
+    .list li:last-child {
+      border-bottom: 0;
+    }
+
+    .inline-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .inline-form input {
+      min-width: 0;
+      padding: 10px;
+    }
+
+    .inline-form button {
+      padding: 10px 12px;
+    }
+
+    .assignment {
+      margin-top: 10px;
+      padding: 13px;
+      border: 1px solid #dce6df;
+      border-radius: 9px;
+      background: #fbfdfb;
+    }
+
+    .assignment p {
+      margin: 7px 0 0;
+      color: #4c6057;
+    }
+
+    .warning {
+      border-color: #f3d2a7;
+      background: #fff9f0;
+    }
+
+    @media (max-width: 760px) {
+      .login-page,
+      .columns,
+      .home-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        gap: 4px;
+      }
+
+      .nav-links button {
+        padding: 8px 9px;
+        font-size: 13px;
+      }
+
+      .intro {
+        padding: 36px 24px;
+      }
+
+      .intro h1 {
+        font-size: 42px;
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .welcome {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .inline-form {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .inline-form input:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid .full-width {
+        grid-column: auto;
+      }
+
+      .hero-art {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Page 1: Login -->
+  <main id="loginPage" class="login-page">
+    <section class="intro">
+      <h1>Load Shift</h1>
+      <p>
+        Plan your items, manage vehicle capacities, and organize your loads
+        in one simple place.
+      </p>
+    </section>
+
+    <section class="login-area">
+      <form id="loginForm" class="login-card">
+        <h2>Welcome back</h2>
+        <p>Log in to view your load details.</p>
+
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          placeholder="Enter username"
+          autocomplete="username"
+          required
+        >
+
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button class="primary-button" type="submit">Log in</button>
+        <p id="loginError" class="error" role="alert"></p>
+        <p class="demo">Demo login: <strong>admin</strong> / <strong>1234</strong></p>
+      </form>
+    </section>
+  </main>
+
+  <!-- Page 2: Load details -->
+  <div id="detailsPage" class="hidden">
+    <nav class="navbar" aria-label="Main navigation">
+      <div class="brand">Load Shift</div>
+      <div class="nav-links" role="navigation" aria-label="Pages">
+        <button type="button" data-page="home" aria-current="page">Home</button>
+        <button type="button" data-page="vehicles">Vehicles</button>
+        <button type="button" data-page="cost">Load cost</button>
+        <button type="button" data-page="order">Location &amp; order</button>
+        <button id="logoutButton" type="button">Log out</button>
+      </div>
+    </nav>
+
+    <main class="dashboard">
+      <section id="homeSection" class="page-section" data-page-content="home">
+        <section class="home-hero" aria-labelledby="homeHeroHeading">
+          <div>
+            <p class="eyebrow">From pickup to delivery</p>
+            <h1 id="homeHeroHeading">Move your load with confidence.</h1>
+            <p>
+              Plan your goods, choose the right transport, and organize a
+              delivery from your pickup location to its destination.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-button" type="button" data-go-page="order">Plan a delivery</button>
+              <button class="secondary-button" type="button" data-go-page="vehicles">Explore vehicles</button>
+            </div>
+          </div>
+          <div class="hero-art" aria-label="Load transfer and transport illustrations">
+            <figure class="hero-image-card">
+              <svg viewBox="0 0 260 170" role="img" aria-labelledby="transferTitle">
+                <title id="transferTitle">Boxes being transferred for delivery</title>
+                <rect x="14" y="125" width="232" height="11" rx="5.5" fill="#b6d9c1"/>
+                <path d="M49 124V95h47v29M57 95V80h31v15" fill="#d2a36b" stroke="#fff1d8" stroke-width="3"/>
+                <path d="M72 81v43M49 105h47" stroke="#fff1d8" stroke-width="2"/>
+                <path d="M112 124V78h53v46M121 78V61h35v17" fill="#bc8955" stroke="#ffedcf" stroke-width="3"/>
+                <path d="M138 62v62M112 98h53" stroke="#ffedcf" stroke-width="2"/>
+                <path d="M180 124V99h35v25M187 99V88h21v11" fill="#d2a36b" stroke="#fff1d8" stroke-width="3"/>
+                <path d="M197 88v36M180 110h35" stroke="#fff1d8" stroke-width="2"/>
+                <path d="M25 53h48m-12-12 12 12-12 12M170 38h48m-12-12 12 12-12 12" fill="none" stroke="#c7f1d2" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+                <circle cx="35" cy="45" r="15" fill="#c7f1d2" opacity=".18"/>
+                <circle cx="220" cy="85" r="22" fill="#c7f1d2" opacity=".14"/>
+              </svg>
+              <figcaption>Careful load transfer</figcaption>
+            </figure>
+            <figure class="hero-image-card">
+              <svg viewBox="0 0 260 170" role="img" aria-labelledby="truckTitle">
+                <title id="truckTitle">Delivery truck transporting cargo</title>
+                <path d="M24 61h129v65H24z" fill="#f4f7f4"/>
+                <path d="M153 83h43l32 34v9h-75z" fill="#bce3c8"/>
+                <path d="M171 91h20l21 23h-41z" fill="#4b8a71"/>
+                <path d="M32 71h35v47H32zM74 71h35v47H74zM116 71h29v47h-29z" fill="#d5a66f"/>
+                <path d="M49 71v47M91 71v47M130 71v47" stroke="#fff1d8" stroke-width="2"/>
+                <path d="M26 126h201" stroke="#b6d9c1" stroke-linecap="round" stroke-width="8"/>
+                <circle cx="69" cy="130" r="14" fill="#173c31" stroke="#e9f3eb" stroke-width="5"/>
+                <circle cx="188" cy="130" r="14" fill="#173c31" stroke="#e9f3eb" stroke-width="5"/>
+                <path d="M35 52h112" stroke="#c7f1d2" stroke-linecap="round" stroke-width="4"/>
+                <path d="m135 42 12 10-12 10" fill="none" stroke="#c7f1d2" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+              </svg>
+              <figcaption>Transport to your destination</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <header class="welcome">
+          <div>
+            <h1>Load details</h1>
+            <p>Manage your items and vehicles, then assign the loads.</p>
+          </div>
+          <button id="assignButton" class="primary-button" type="button">
+            Assign loads
+          </button>
+        </header>
+
+        <section class="summary">
+          <article class="summary-card">
+            <span>Total items</span>
+            <strong id="itemCount">0</strong>
+          </article>
+          <article class="summary-card">
+            <span>Total item weight</span>
+            <strong id="totalWeight">0 kg</strong>
+          </article>
+          <article class="summary-card">
+            <span>Total capacity</span>
+            <strong id="totalCapacity">0 kg</strong>
+          </article>
+          <article class="summary-card">
+            <span>Vehicles</span>
+            <strong id="vehicleCount">0</strong>
+          </article>
+        </section>
+
+        <div class="columns">
+          <section class="panel">
+            <h2>Items to move</h2>
+            <p class="panel-description">Add the items and their weights.</p>
+            <ul id="itemList" class="list"></ul>
+
+            <form id="itemForm" class="inline-form">
+              <input id="itemName" type="text" placeholder="Item name" required>
+              <input
+                id="itemWeight"
+                type="number"
+                min="0.1"
+                step="0.1"
+                placeholder="Weight (kg)"
+                required
+              >
+              <button class="primary-button" type="submit">Add item</button>
+            </form>
+            <p id="itemMessage" class="message" role="status"></p>
+          </section>
+
+          <section class="panel">
+            <h2>Load assignment</h2>
+            <p class="panel-description">Your assigned loads will appear here.</p>
+            <div id="result">
+              <p class="panel-description">Select “Assign loads” to create a plan.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="vehiclesSection" class="page-section hidden" data-page-content="vehicles">
+        <header class="page-intro">
+          <h1>Vehicles &amp; transport</h1>
+          <p>Explore transport types and add vehicles to your available fleet.</p>
+        </header>
+
+        <div class="vehicle-cards">
+          <article class="vehicle-card">
+            <h3>Pickup truck</h3>
+            <p>Good for small household moves, shop deliveries, and narrow streets.</p>
+            <p><strong>Typical capacity: 500–1,500 kg</strong></p>
+          </article>
+          <article class="vehicle-card">
+            <h3>Mini truck</h3>
+            <p>A compact option for local deliveries and smaller commercial loads.</p>
+            <p><strong>Typical capacity: 750–2,000 kg</strong></p>
+          </article>
+          <article class="vehicle-card">
+            <h3>Eicher truck</h3>
+            <p>For larger household moves, building supplies, and medium freight.</p>
+            <p><strong>Typical capacity: 3,000–7,000 kg</strong></p>
+          </article>
+          <article class="vehicle-card">
+            <h3>Cargo van</h3>
+            <p>Covered transport for boxes, appliances, and goods needing protection.</p>
+            <p><strong>Typical capacity: 500–1,500 kg</strong></p>
+          </article>
+          <article class="vehicle-card">
+            <h3>Large lorry</h3>
+            <p>Suitable for high-volume freight and long-distance transport.</p>
+            <p><strong>Typical capacity: 8,000–15,000 kg</strong></p>
+          </article>
+          <article class="vehicle-card">
+            <h3>Container truck</h3>
+            <p>Enclosed long-haul transport for bulk cargo and protected shipments.</p>
+            <p><strong>Typical capacity: 10,000–25,000 kg</strong></p>
+          </article>
+        </div>
+
+        <section class="panel" style="margin-top: 18px;">
+          <h2>Your available vehicles</h2>
+          <p class="panel-description">The capacity entered here is used for your load plan.</p>
+          <ul id="vehicleList" class="list"></ul>
+          <form id="vehicleForm" class="inline-form">
+            <input id="vehicleName" type="text" placeholder="Vehicle name" required>
+            <input
+              id="vehicleCapacity"
+              type="number"
+              min="0.1"
+              step="0.1"
+              placeholder="Capacity (kg)"
+              required
+            >
+            <button class="primary-button" type="submit">Add vehicle</button>
+          </form>
+          <p id="vehicleMessage" class="message" role="status"></p>
+        </section>
+      </section>
+
+      <section id="costSection" class="page-section hidden" data-page-content="cost">
+        <header class="page-intro">
+          <h1>Load cost estimate</h1>
+          <p>Get an indicative transport estimate using a vehicle, load weight, and travel distance.</p>
+        </header>
+        <section class="panel">
+          <form id="costForm">
+            <div class="form-grid">
+              <div>
+                <label for="costVehicle">Vehicle type</label>
+                <select id="costVehicle" required>
+                  <option value="pickup">Pickup truck</option>
+                  <option value="mini">Mini truck</option>
+                  <option value="eicher">Eicher truck</option>
+                  <option value="van">Cargo van</option>
+                  <option value="lorry">Large lorry</option>
+                  <option value="container">Container truck</option>
+                </select>
+              </div>
+              <div>
+                <label for="costWeight">Load weight (kg)</label>
+                <input id="costWeight" type="number" min="0.1" step="0.1" value="168" required>
+              </div>
+              <div class="full-width">
+                <label for="costDistance">Route distance (km)</label>
+                <input id="costDistance" type="number" min="1" step="1" placeholder="Enter distance in kilometres" required>
+              </div>
+            </div>
+          </form>
+          <div class="estimate" aria-live="polite">
+            <span>Estimated transport cost</span>
+            <strong id="estimatedCost">Enter a route distance</strong>
+            <p id="costBreakdown" class="form-note">
+              Estimate uses a sample base fare, per-kilometre charge, and per-kilogram charge.
+            </p>
+          </div>
+          <p class="form-note">Sample estimate only. Actual prices depend on provider, route, waiting time, and other charges.</p>
+        </section>
+      </section>
+
+      <section id="orderSection" class="page-section hidden" data-page-content="order">
+        <header class="page-intro">
+          <h1>Location &amp; place an order</h1>
+          <p>Enter where the load should be collected and delivered to request transport.</p>
+        </header>
+        <section class="panel">
+          <form id="orderForm">
+            <div class="form-grid">
+              <div>
+                <label for="pickupLocation">Pickup location (from)</label>
+                <input id="pickupLocation" type="text" placeholder="City, area, or full address" required>
+              </div>
+              <div>
+                <label for="deliveryLocation">Delivery location (to)</label>
+                <input id="deliveryLocation" type="text" placeholder="City, area, or full address" required>
+              </div>
+              <div>
+                <label for="orderDistance">Distance (km)</label>
+                <input id="orderDistance" type="number" min="1" step="1" placeholder="Enter route distance" required>
+              </div>
+              <div>
+                <label for="orderVehicle">Transport vehicle</label>
+                <select id="orderVehicle" required>
+                  <option value="pickup">Pickup truck</option>
+                  <option value="mini">Mini truck</option>
+                  <option value="eicher">Eicher truck</option>
+                  <option value="van">Cargo van</option>
+                  <option value="lorry">Large lorry</option>
+                  <option value="container">Container truck</option>
+                </select>
+              </div>
+              <div>
+                <label for="orderWeight">Load weight (kg)</label>
+                <input id="orderWeight" type="number" min="0.1" step="0.1" value="168" required>
+              </div>
+              <div>
+                <label for="customerName">Your name</label>
+                <input id="customerName" type="text" placeholder="Enter your name" required>
+              </div>
+              <div>
+                <label for="customerPhone">Contact phone</label>
+                <input id="customerPhone" type="tel" autocomplete="tel" placeholder="Enter your phone number" required>
+              </div>
+              <div class="full-width">
+                <button class="primary-button" type="submit">Request transport order</button>
+              </div>
+            </div>
+          </form>
+          <p id="orderMessage" class="success-message" role="status" aria-live="polite"></p>
+
+          <section id="paymentPanel" class="panel payment-panel hidden" aria-labelledby="paymentHeading">
+            <h2 id="paymentHeading">Review order &amp; pay with UPI</h2>
+            <p class="panel-description">Check the route and estimated fare before opening your UPI app.</p>
+            <div id="paymentSummary" class="payment-summary"></div>
+            <label for="payeeUpiId">Transport provider UPI ID</label>
+            <input id="payeeUpiId" type="text" inputmode="email" autocomplete="off" placeholder="provider@bank">
+            <p class="form-note">Enter the verified UPI ID provided by your transport provider. The demo does not verify payments.</p>
+            <a id="upiPayButton" class="primary-button upi-button" href="#" role="button" aria-disabled="true">Continue to UPI payment</a>
+            <p id="paymentMessage" class="payment-message" role="status" aria-live="polite"></p>
+          </section>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function initializeLoadShiftApp() {
+      const items = [
+        { name: "Vegetables", weight: 30 },
+        { name: "Milk", weight: 20 },
+        { name: "TV", weight: 15 },
+        { name: "Fridge", weight: 55 },
+        { name: "Fan", weight: 8 },
+        { name: "House things", weight: 40 }
+      ];
+
+      const vehicles = [
+        { name: "Pickup", capacity: 150 },
+        { name: "Eicher", capacity: 100 }
+      ];
+
+      const transportRates = {
+        pickup: { name: "Pickup truck", base: 250, perKm: 12, perKg: 1.5 },
+        mini: { name: "Mini truck", base: 350, perKm: 15, perKg: 1.4 },
+        eicher: { name: "Eicher truck", base: 600, perKm: 22, perKg: 1.2 },
+        van: { name: "Cargo van", base: 300, perKm: 14, perKg: 1.7 },
+        lorry: { name: "Large lorry", base: 1200, perKm: 35, perKg: 1.1 },
+        container: { name: "Container truck", base: 1800, perKm: 45, perKg: 1.2 }
+      };
+
+      const loginPage = document.getElementById("loginPage");
+      const detailsPage = document.getElementById("detailsPage");
+      const loginForm = document.getElementById("loginForm");
+      const logoutButton = document.getElementById("logoutButton");
+      const costForm = document.getElementById("costForm");
+      const orderForm = document.getElementById("orderForm");
+      const paymentPanel = document.getElementById("paymentPanel");
+      const payeeUpiId = document.getElementById("payeeUpiId");
+      const upiPayButton = document.getElementById("upiPayButton");
+      const itemForm = document.getElementById("itemForm");
+      const vehicleForm = document.getElementById("vehicleForm");
+      const assignButton = document.getElementById("assignButton");
+
+      if (!loginPage || !detailsPage || !loginForm || !logoutButton || !costForm || !orderForm || !paymentPanel || !payeeUpiId || !upiPayButton || !itemForm || !vehicleForm || !assignButton) {
+        return;
+      }
+
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const error = document.getElementById("loginError");
+
+        if (!usernameInput || !passwordInput || !error) {
+          return;
+        }
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+
+        if (username !== "admin" || password !== "1234") {
+          error.textContent = "Invalid username or password.";
+          return;
+        }
+
+        error.textContent = "";
+        loginPage.classList.add("hidden");
+        detailsPage.classList.remove("hidden");
+        render();
+        showPage("home");
+      });
+
+      function showPage(pageName) {
+        document.querySelectorAll("[data-page-content]").forEach(function (page) {
+          page.classList.toggle("hidden", page.dataset.pageContent !== pageName);
+        });
+
+        document.querySelectorAll("[data-page]").forEach(function (button) {
+          if (button.dataset.page === pageName) {
+            button.setAttribute("aria-current", "page");
+          } else {
+            button.removeAttribute("aria-current");
+          }
+        });
+
+        if (window && typeof window.scrollTo === "function") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+
+      document.querySelectorAll("[data-page]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          showPage(button.dataset.page);
+        });
+      });
+
+      document.querySelectorAll("[data-go-page]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          showPage(button.dataset.goPage);
+        });
+      });
+
+      logoutButton.addEventListener("click", function () {
+        detailsPage.classList.add("hidden");
+        loginPage.classList.remove("hidden");
+        loginForm.reset();
+        const loginError = document.getElementById("loginError");
+        if (loginError) {
+          loginError.textContent = "";
+        }
+      });
+
+      function render() {
+        const itemList = document.getElementById("itemList");
+        const vehicleList = document.getElementById("vehicleList");
+
+        if (!itemList || !vehicleList) {
+          return;
+        }
+
+        itemList.replaceChildren();
+        vehicleList.replaceChildren();
+
+        items.forEach(function (item) {
+          const row = document.createElement("li");
+          row.textContent = `${item.name} — ${item.weight} kg`;
+          itemList.appendChild(row);
+        });
+
+        vehicles.forEach(function (vehicle) {
+          const row = document.createElement("li");
+          row.textContent = `${vehicle.name} — ${vehicle.capacity} kg capacity`;
+          vehicleList.appendChild(row);
+        });
+
+        const itemCount = document.getElementById("itemCount");
+        const totalWeight = document.getElementById("totalWeight");
+        const totalCapacity = document.getElementById("totalCapacity");
+        const vehicleCount = document.getElementById("vehicleCount");
+
+        if (itemCount) itemCount.textContent = String(items.length);
+        if (totalWeight) totalWeight.textContent = `${items.reduce((sum, item) => sum + item.weight, 0)} kg`;
+        if (totalCapacity) totalCapacity.textContent = `${vehicles.reduce((sum, vehicle) => sum + vehicle.capacity, 0)} kg`;
+        if (vehicleCount) vehicleCount.textContent = String(vehicles.length);
+      }
+
+      function getCostEstimate(vehicleType, weight, distance) {
+        const rate = transportRates[vehicleType];
+        if (!rate || !Number.isFinite(weight) || weight <= 0 ||
+            !Number.isFinite(distance) || distance <= 0) {
+          return null;
+        }
+
+        return {
+          rate,
+          total: rate.base + rate.perKm * distance + rate.perKg * weight
+        };
+      }
+
+      function formatRupees(amount) {
+        return `₹${amount.toLocaleString("en-IN", {
+          maximumFractionDigits: 2
+        })}`;
+      }
+
+      function updateCostEstimate(vehicleId, weightId, distanceId) {
+        const vehicleElement = document.getElementById(vehicleId);
+        const weightElement = document.getElementById(weightId);
+        const distanceElement = document.getElementById(distanceId);
+        const costElement = document.getElementById("estimatedCost");
+        const breakdown = document.getElementById("costBreakdown");
+
+        if (!vehicleElement || !weightElement || !distanceElement || !costElement || !breakdown) {
+          return null;
+        }
+
+        const vehicle = vehicleElement.value;
+        const weight = Number(weightElement.value);
+        const distance = Number(distanceElement.value);
+        const estimate = getCostEstimate(vehicle, weight, distance);
+
+        if (!estimate) {
+          costElement.textContent = "Enter a valid weight and route distance";
+          breakdown.textContent =
+            "Estimate uses a sample base fare, per-kilometre charge, and per-kilogram charge.";
+          return null;
+        }
+
+        costElement.textContent = formatRupees(estimate.total);
+        breakdown.textContent =
+          `${estimate.rate.name}: ${formatRupees(estimate.rate.base)} base + ` +
+          `${formatRupees(estimate.rate.perKm)} per km + ` +
+          `${formatRupees(estimate.rate.perKg)} per kg.`;
+        return estimate;
+      }
+
+      costForm.addEventListener("input", function () {
+        updateCostEstimate("costVehicle", "costWeight", "costDistance");
+      });
+
+      let currentOrder = null;
+
+      function buildUpiPaymentUrl() {
+        if (!currentOrder) {
+          return null;
+        }
+
+        const payee = payeeUpiId.value.trim();
+        if (!/^[A-Za-z0-9._-]{2,256}@[A-Za-z0-9.-]{2,64}$/.test(payee)) {
+          return null;
+        }
+
+        const parameters = new URLSearchParams({
+          pa: payee,
+          pn: "Load Shift",
+          am: currentOrder.amount.toFixed(2),
+          cu: "INR",
+          tn: `Transport ${currentOrder.pickup} to ${currentOrder.delivery}`
+        });
+        return `upi://pay?${parameters.toString()}`;
+      }
+
+      function updateUpiPaymentLink() {
+        const paymentUrl = buildUpiPaymentUrl();
+        upiPayButton.href = paymentUrl || "#";
+        upiPayButton.setAttribute("aria-disabled", String(!paymentUrl));
+        const paymentMessage = document.getElementById("paymentMessage");
+        if (paymentMessage) {
+          paymentMessage.textContent = "";
+        }
+      }
+
+      orderForm.addEventListener("input", function () {
+        if (currentOrder) {
+          currentOrder = null;
+          paymentPanel.classList.add("hidden");
+          const orderMessage = document.getElementById("orderMessage");
+          if (orderMessage) {
+            orderMessage.textContent =
+              "Order details changed. Submit the form again to review the updated fare.";
+          }
+        }
+      });
+
+      payeeUpiId.addEventListener("input", updateUpiPaymentLink);
+
+      orderForm.addEventListener("change", function () {
+        if (currentOrder) {
+          currentOrder = null;
+          paymentPanel.classList.add("hidden");
+          const orderMessage = document.getElementById("orderMessage");
+          if (orderMessage) {
+            orderMessage.textContent =
+              "Order details changed. Submit the form again to review the updated fare.";
+          }
+        }
+      });
+
+      orderForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const pickup = document.getElementById("pickupLocation");
+        const delivery = document.getElementById("deliveryLocation");
+        const customer = document.getElementById("customerName");
+        const phone = document.getElementById("customerPhone");
+        const orderVehicle = document.getElementById("orderVehicle");
+        const orderWeight = document.getElementById("orderWeight");
+        const orderDistance = document.getElementById("orderDistance");
+        const orderMessage = document.getElementById("orderMessage");
+        const paymentSummary = document.getElementById("paymentSummary");
+
+        if (!pickup || !delivery || !customer || !phone || !orderVehicle || !orderWeight || !orderDistance || !orderMessage || !paymentSummary) {
+          return;
+        }
+
+        const pickupValue = pickup.value.trim();
+        const deliveryValue = delivery.value.trim();
+        const customerValue = customer.value.trim();
+        const phoneValue = phone.value.trim();
+        const vehicleType = orderVehicle.value;
+        const weight = Number(orderWeight.value);
+        const distance = Number(orderDistance.value);
+        const estimate = updateCostEstimate("orderVehicle", "orderWeight", "orderDistance");
+
+        if (!pickupValue || !deliveryValue || !customerValue || !phoneValue || !estimate) {
+          orderMessage.textContent = "Complete the pickup, delivery, contact, vehicle, load, and distance details.";
+          paymentPanel.classList.add("hidden");
+          return;
+        }
+
+        const rate = transportRates[vehicleType] || { name: "Selected vehicle" };
+        currentOrder = { pickup: pickupValue, delivery: deliveryValue, amount: estimate.total };
+        paymentSummary.textContent =
+          `${customerValue} · ${phoneValue} | ${pickupValue} → ${deliveryValue} | ` +
+          `${rate.name} | ${weight} kg | ${distance} km | Estimated fare: ${formatRupees(estimate.total)}`;
+        orderMessage.textContent = "Order details saved for this session. Enter the provider's UPI ID to prepare payment.";
+        paymentPanel.classList.remove("hidden");
+        updateUpiPaymentLink();
+      });
+
+      upiPayButton.addEventListener("click", function (event) {
+        const paymentUrl = buildUpiPaymentUrl();
+        const paymentMessage = document.getElementById("paymentMessage");
+
+        if (!paymentMessage) {
+          return;
+        }
+
+        if (!paymentUrl) {
+          event.preventDefault();
+          paymentMessage.textContent = "Enter a valid provider UPI ID, for example provider@bank.";
+          payeeUpiId.focus();
+          return;
+        }
+
+        upiPayButton.href = paymentUrl;
+        paymentMessage.textContent =
+          "Continue in your UPI app. This demo cannot verify payment; confirm payment with your provider.";
+      });
+
+      itemForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const itemName = document.getElementById("itemName");
+        const itemWeight = document.getElementById("itemWeight");
+        const itemMessage = document.getElementById("itemMessage");
+
+        if (!itemName || !itemWeight || !itemMessage) {
+          return;
+        }
+
+        const name = itemName.value.trim();
+        const weight = Number(itemWeight.value);
+
+        if (!name || !Number.isFinite(weight) || weight <= 0) {
+          itemMessage.textContent = "Enter an item name and a weight greater than zero.";
+          return;
+        }
+
+        items.push({ name, weight });
+        this.reset();
+        itemMessage.textContent = "";
+        render();
+      });
+
+      vehicleForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const vehicleName = document.getElementById("vehicleName");
+        const vehicleCapacity = document.getElementById("vehicleCapacity");
+        const vehicleMessage = document.getElementById("vehicleMessage");
+
+        if (!vehicleName || !vehicleCapacity || !vehicleMessage) {
+          return;
+        }
+
+        const name = vehicleName.value.trim();
+        const capacity = Number(vehicleCapacity.value);
+
+        if (!name || !Number.isFinite(capacity) || capacity <= 0) {
+          vehicleMessage.textContent = "Enter a vehicle name and a capacity greater than zero.";
+          return;
+        }
+
+        vehicles.push({ name, capacity });
+        this.reset();
+        vehicleMessage.textContent = "";
+        render();
+      });
+
+      assignButton.addEventListener("click", function () {
+        const plan = vehicles.map(function (vehicle) {
+          return { vehicle, items: [], totalWeight: 0 };
+        });
+
+        const unassigned = [];
+
+        [...items]
+          .sort((a, b) => b.weight - a.weight)
+          .forEach(function (item) {
+            const available = plan
+              .filter(entry => entry.totalWeight + item.weight <= entry.vehicle.capacity)
+              .sort((a, b) =>
+                (a.vehicle.capacity - a.totalWeight) -
+                (b.vehicle.capacity - b.totalWeight)
+              )[0];
+
+            if (!available) {
+              unassigned.push(item);
+              return;
+            }
+
+            available.items.push(item);
+            available.totalWeight += item.weight;
+          });
+
+        const result = document.getElementById("result");
+        if (!result) {
+          return;
+        }
+
+        result.replaceChildren();
+
+        plan.forEach(function (entry) {
+          const card = document.createElement("article");
+          card.className = "assignment";
+
+          const heading = document.createElement("strong");
+          heading.textContent = entry.vehicle.name;
+          card.appendChild(heading);
+
+          const itemDetails = document.createElement("p");
+          itemDetails.textContent =
+            `Items: ${entry.items.map(item => item.name).join(", ") || "None"}`;
+          card.appendChild(itemDetails);
+
+          const weightDetails = document.createElement("p");
+          weightDetails.textContent = `Load: ${entry.totalWeight} / ${entry.vehicle.capacity} kg`;
+          card.appendChild(weightDetails);
+
+          result.appendChild(card);
+        });
+
+        if (unassigned.length > 0) {
+          const warning = document.createElement("article");
+          warning.className = "assignment warning";
+
+          const heading = document.createElement("strong");
+          heading.textContent = "Items without available capacity";
+          warning.appendChild(heading);
+
+          const details = document.createElement("p");
+          details.textContent = unassigned
+            .map(item => `${item.name} (${item.weight} kg)`)
+            .join(", ");
+          warning.appendChild(details);
+
+          result.appendChild(warning);
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initializeLoadShiftApp);
+    } else {
+      initializeLoadShiftApp();
+    }
+  </script>
+</body>
+</html>
