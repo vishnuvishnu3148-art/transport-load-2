@@ -600,6 +600,22 @@
       max-width: 600px;
     }
 
+    .public-illustration {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+    }
+
+    .public-illustration img {
+      display: block;
+      width: min(100%, 420px);
+      height: auto;
+      border-radius: 18px;
+      filter: drop-shadow(0 18px 35px rgba(15, 26, 22, 0.28));
+      background: rgba(255, 255, 255, 0.08);
+    }
+
     .public-eyebrow {
       margin: 0 0 12px;
       color: #bce3c8;
