@@ -300,6 +300,28 @@
       gap: 14px;
     }
 
+    .vehicle-artwork {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .vehicle-render {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .vehicle-render-card {
+      height: 145px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #f0f8f2, #e3f0e7);
+    }
+
     .vehicle-card {
       padding: 18px;
       border: 1px solid #dce6df;
@@ -607,13 +629,10 @@
       min-height: 260px;
     }
 
-    .public-illustration img {
-      display: block;
-      width: min(100%, 420px);
-      height: auto;
+    .vehicle-render-hero {
+      width: min(100%, 480px);
       border-radius: 18px;
-      filter: drop-shadow(0 18px 35px rgba(15, 26, 22, 0.28));
-      background: rgba(255, 255, 255, 0.08);
+      filter: drop-shadow(0 22px 24px rgba(8, 40, 25, 0.2));
     }
 
     .public-eyebrow {
@@ -687,26 +706,21 @@
     }
 
     .public-service-card {
+      overflow: hidden;
       padding: 20px;
       border: 1px solid #dce6df;
       border-radius: 14px;
       background: #fff;
     }
 
-    .public-service-mark {
-      display: grid;
-      width: 42px;
-      height: 42px;
-      place-items: center;
-      border-radius: 12px;
-      color: #176b52;
-      background: #edf6f0;
-      font-size: 20px;
-      font-weight: 800;
+    .public-service-card .vehicle-render-card {
+      height: 135px;
+      margin: -5px -5px 12px;
+      width: calc(100% + 10px);
     }
 
     .public-service-card h3 {
-      margin: 16px 0 8px;
+      margin: 0 0 8px;
       color: #12372d;
     }
 

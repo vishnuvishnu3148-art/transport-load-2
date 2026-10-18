@@ -7,6 +7,139 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <svg class="vehicle-artwork" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="vehicleBody" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8ed2a2"/>
+        <stop offset="0.55" stop-color="#3d9365"/>
+        <stop offset="1" stop-color="#1b6348"/>
+      </linearGradient>
+      <linearGradient id="vehicleCab" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d8f2df"/>
+        <stop offset="0.55" stop-color="#81c89a"/>
+        <stop offset="1" stop-color="#34835b"/>
+      </linearGradient>
+      <linearGradient id="vehicleTop" x1="0" y1="0" x2="0.8" y2="1">
+        <stop offset="0" stop-color="#f5fff7"/>
+        <stop offset="1" stop-color="#b7e4c3"/>
+      </linearGradient>
+      <linearGradient id="vehicleGlass" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#effbff"/>
+        <stop offset="1" stop-color="#75a99c"/>
+      </linearGradient>
+      <linearGradient id="vehicleTire" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#46544c"/>
+        <stop offset="1" stop-color="#14271f"/>
+      </linearGradient>
+      <symbol id="vehicle-pickup" viewBox="0 0 360 220">
+        <ellipse cx="180" cy="191" rx="143" ry="13" fill="#0d3d2b" opacity=".18"/>
+        <path d="M42 81 65 65h145l-18 17z" fill="url(#vehicleTop)"/>
+        <path d="M42 81h150v77H42z" fill="url(#vehicleBody)"/>
+        <path d="m192 81 18-16v78l-18 15z" fill="#1e6948"/>
+        <path d="M58 95h120v48H58z" fill="#d6b487"/>
+        <path d="m58 95 17-12h120l-17 12z" fill="#f0d4a7"/>
+        <path d="M61 104h28v34H61zm34 0h29v34H95zm35 0h29v34h-29z" fill="#c5935f" stroke="#f5dfbd" stroke-width="2"/>
+        <path d="m184 105 24-29 46 4 31 37v42h-101z" fill="url(#vehicleCab)"/>
+        <path d="m207 82 15-27 36 3 22 25z" fill="url(#vehicleTop)"/>
+        <path d="m224 84 12-20 19 2 14 20z" fill="url(#vehicleGlass)" stroke="#e8fff0" stroke-width="2"/>
+        <path d="m278 89 18 25v40h-11v-35l-22-28z" fill="#318059"/>
+        <path d="M213 151h81v13h-81z" fill="#17563d"/>
+        <path d="M45 156h250v11H45z" fill="#194f39"/>
+        <circle cx="103" cy="165" r="25" fill="url(#vehicleTire)"/><circle cx="103" cy="165" r="12" fill="#c7d4ca"/><circle cx="103" cy="165" r="5" fill="#708278"/>
+        <circle cx="249" cy="165" r="25" fill="url(#vehicleTire)"/><circle cx="249" cy="165" r="12" fill="#c7d4ca"/><circle cx="249" cy="165" r="5" fill="#708278"/>
+        <path d="M290 133h8v11h-8z" fill="#fff2b7"/>
+        <path d="M49 87h134M58 149h117" stroke="#effff1" stroke-opacity=".5" stroke-width="3"/>
+      </symbol>
+      <symbol id="vehicle-mini" viewBox="0 0 360 220">
+        <ellipse cx="180" cy="191" rx="143" ry="13" fill="#0d3d2b" opacity=".18"/>
+        <path d="M45 89 64 73h127l-17 16z" fill="url(#vehicleTop)"/>
+        <path d="M45 89h129v68H45z" fill="url(#vehicleBody)"/>
+        <path d="m174 89 17-16v67l-17 17z" fill="#1e6948"/>
+        <path d="M57 99h102v46H57z" fill="#d9e7dc"/>
+        <path d="m57 99 14-10h102l-14 10z" fill="#f4fff6"/>
+        <path d="m172 111 25-33 45 2 33 35v43H172z" fill="url(#vehicleCab)"/>
+        <path d="m196 80 15-28 38 3 22 27z" fill="url(#vehicleTop)"/>
+        <path d="m215 82 12-21 21 2 14 21z" fill="url(#vehicleGlass)" stroke="#e8fff0" stroke-width="2"/>
+        <path d="m265 89 17 26v39h-12v-34l-20-27z" fill="#318059"/>
+        <path d="M201 151h81v13h-81zM47 156h235v11H47z" fill="#194f39"/>
+        <circle cx="101" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="101" cy="165" r="11" fill="#c7d4ca"/><circle cx="101" cy="165" r="5" fill="#708278"/>
+        <circle cx="239" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="239" cy="165" r="11" fill="#c7d4ca"/><circle cx="239" cy="165" r="5" fill="#708278"/>
+        <path d="M274 133h8v11h-8z" fill="#fff2b7"/>
+        <path d="M53 94h112M55 149h108" stroke="#effff1" stroke-opacity=".55" stroke-width="3"/>
+      </symbol>
+      <symbol id="vehicle-eicher" viewBox="0 0 360 220">
+        <ellipse cx="180" cy="191" rx="145" ry="13" fill="#0d3d2b" opacity=".18"/>
+        <path d="M32 72 53 56h174l-18 16z" fill="url(#vehicleTop)"/>
+        <path d="M32 72h177v86H32z" fill="url(#vehicleBody)"/>
+        <path d="m209 72 18-16v84l-18 18z" fill="#1e6948"/>
+        <path d="M47 85h147v58H47z" fill="#d8e7db"/>
+        <path d="m47 85 17-13h147l-17 13z" fill="#f4fff6"/>
+        <path d="M63 91v48m39-48v48m39-48v48m39-48v48" stroke="#9eb9a5" stroke-width="2"/>
+        <path d="m207 105 22-28 47 3 33 36v43H207z" fill="url(#vehicleCab)"/>
+        <path d="m229 79 15-27 39 3 22 27z" fill="url(#vehicleTop)"/>
+        <path d="m249 81 12-20 22 2 14 21z" fill="url(#vehicleGlass)" stroke="#e8fff0" stroke-width="2"/>
+        <path d="m299 89 18 27v40h-13v-35l-20-28z" fill="#318059"/>
+        <path d="M228 151h89v13h-89zM34 156h283v11H34z" fill="#194f39"/>
+        <circle cx="91" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="91" cy="165" r="11" fill="#c7d4ca"/><circle cx="91" cy="165" r="5" fill="#708278"/>
+        <circle cx="191" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="191" cy="165" r="11" fill="#c7d4ca"/><circle cx="191" cy="165" r="5" fill="#708278"/>
+        <circle cx="275" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="275" cy="165" r="11" fill="#c7d4ca"/><circle cx="275" cy="165" r="5" fill="#708278"/>
+        <path d="M306 134h9v11h-9z" fill="#fff2b7"/>
+      </symbol>
+      <symbol id="vehicle-van" viewBox="0 0 360 220">
+        <ellipse cx="180" cy="191" rx="142" ry="13" fill="#0d3d2b" opacity=".18"/>
+        <path d="M55 76 77 58h148l-17 18z" fill="url(#vehicleTop)"/>
+        <path d="M55 76h153v81H55z" fill="url(#vehicleBody)"/>
+        <path d="m208 76 17-18v82l-17 17z" fill="#1e6948"/>
+        <path d="M70 87h122v58H70z" fill="#d8e7db"/>
+        <path d="m70 87 16-12h123l-17 12z" fill="#f4fff6"/>
+        <path d="m205 98 24-29 46 3 33 37v49H205z" fill="url(#vehicleCab)"/>
+        <path d="m229 71 15-28 39 3 22 27z" fill="url(#vehicleTop)"/>
+        <path d="m249 73 12-21 23 2 14 21z" fill="url(#vehicleGlass)" stroke="#e8fff0" stroke-width="2"/>
+        <path d="m297 81 19 28v43h-12v-37l-21-29z" fill="#318059"/>
+        <path d="M226 151h90v13h-90zM57 156h260v11H57z" fill="#194f39"/>
+        <path d="M79 95v47m96-47v47" stroke="#98b5a0" stroke-width="3"/>
+        <circle cx="116" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="116" cy="165" r="11" fill="#c7d4ca"/><circle cx="116" cy="165" r="5" fill="#708278"/>
+        <circle cx="274" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="274" cy="165" r="11" fill="#c7d4ca"/><circle cx="274" cy="165" r="5" fill="#708278"/>
+        <path d="M305 130h10v12h-10z" fill="#fff2b7"/>
+      </symbol>
+      <symbol id="vehicle-lorry" viewBox="0 0 360 220">
+        <ellipse cx="180" cy="191" rx="146" ry="13" fill="#0d3d2b" opacity=".18"/>
+        <path d="M25 64 45 49h205l-18 15z" fill="url(#vehicleTop)"/>
+        <path d="M25 64h207v94H25z" fill="url(#vehicleBody)"/>
+        <path d="m232 64 18-15v91l-18 18z" fill="#1e6948"/>
+        <path d="M41 77h174v65H41z" fill="#dbe8dd"/>
+        <path d="m41 77 16-12h175l-17 12z" fill="#f4fff6"/>
+        <path d="M61 84v53m39-53v53m39-53v53m39-53v53" stroke="#9eb9a5" stroke-width="2"/>
+        <path d="m230 104 22-29 48 3 32 36v44H230z" fill="url(#vehicleCab)"/>
+        <path d="m253 78 15-28 39 3 22 27z" fill="url(#vehicleTop)"/>
+        <path d="m273 80 12-21 22 2 14 21z" fill="url(#vehicleGlass)" stroke="#e8fff0" stroke-width="2"/>
+        <path d="m321 88 17 28v40h-12v-35l-20-29z" fill="#318059"/>
+        <path d="M250 151h88v13h-88zM27 156h311v11H27z" fill="#194f39"/>
+        <circle cx="77" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="77" cy="165" r="11" fill="#c7d4ca"/><circle cx="77" cy="165" r="5" fill="#708278"/>
+        <circle cx="185" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="185" cy="165" r="11" fill="#c7d4ca"/><circle cx="185" cy="165" r="5" fill="#708278"/>
+        <circle cx="294" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="294" cy="165" r="11" fill="#c7d4ca"/><circle cx="294" cy="165" r="5" fill="#708278"/>
+        <path d="M329 132h9v12h-9z" fill="#fff2b7"/>
+      </symbol>
+      <symbol id="vehicle-container" viewBox="0 0 360 220">
+        <ellipse cx="180" cy="191" rx="146" ry="13" fill="#0d3d2b" opacity=".18"/>
+        <path d="M26 56 48 39h209l-19 17z" fill="url(#vehicleTop)"/>
+        <path d="M26 56h212v102H26z" fill="url(#vehicleBody)"/>
+        <path d="m238 56 19-17v98l-19 21z" fill="#1e6948"/>
+        <path d="M42 70h180v72H42z" fill="#8dc39a"/>
+        <path d="m42 70 17-13h180l-17 13z" fill="#d5efda"/>
+        <path d="M55 73v66m21-66v66m21-66v66m21-66v66m21-66v66m21-66v66m21-66v66" stroke="#397d55" stroke-opacity=".58" stroke-width="3"/>
+        <path d="m236 105 22-30 48 3 32 36v44H236z" fill="url(#vehicleCab)"/>
+        <path d="m259 79 15-28 39 3 22 27z" fill="url(#vehicleTop)"/>
+        <path d="m279 81 12-21 22 2 14 21z" fill="url(#vehicleGlass)" stroke="#e8fff0" stroke-width="2"/>
+        <path d="m327 89 17 28v39h-12v-34l-20-29z" fill="#318059"/>
+        <path d="M256 151h88v13h-88zM28 156h316v11H28z" fill="#194f39"/>
+        <circle cx="79" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="79" cy="165" r="11" fill="#c7d4ca"/><circle cx="79" cy="165" r="5" fill="#708278"/>
+        <circle cx="188" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="188" cy="165" r="11" fill="#c7d4ca"/><circle cx="188" cy="165" r="5" fill="#708278"/>
+        <circle cx="299" cy="165" r="24" fill="url(#vehicleTire)"/><circle cx="299" cy="165" r="11" fill="#c7d4ca"/><circle cx="299" cy="165" r="5" fill="#708278"/>
+        <path d="M335 132h9v12h-9z" fill="#fff2b7"/>
+      </symbol>
+    </defs>
+  </svg>
   <main id="loginPage" class="login-page">
     <section class="intro">
       <p class="public-eyebrow">Load Transport Agencies</p>
@@ -54,7 +187,9 @@
           </div>
         </div>
         <div class="public-illustration">
-          <img src="image.png" alt="Delivery truck carrying cargo" />
+          <svg class="vehicle-render vehicle-render-hero" viewBox="0 0 360 220" role="img" aria-label="Three-dimensional illustration of a cargo truck carrying a load">
+            <use href="#vehicle-container"></use>
+          </svg>
         </div>
       </section>
 
@@ -65,17 +200,17 @@
         </header>
         <div class="public-services">
           <article class="public-service-card">
-            <span class="public-service-mark" aria-hidden="true">P</span>
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-pickup"></use></svg>
             <h3>Pickup &amp; mini trucks</h3>
             <p>Flexible choices for smaller moves, local deliveries, and narrow streets.</p>
           </article>
           <article class="public-service-card">
-            <span class="public-service-mark" aria-hidden="true">E</span>
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-eicher"></use></svg>
             <h3>Medium freight</h3>
             <p>More capacity for household moves, equipment, and commercial goods.</p>
           </article>
           <article class="public-service-card">
-            <span class="public-service-mark" aria-hidden="true">L</span>
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-container"></use></svg>
             <h3>Long-haul cargo</h3>
             <p>Lorries and container trucks for high-volume loads and longer routes.</p>
           </article>
@@ -264,31 +399,37 @@
 
         <div class="vehicle-cards">
           <article class="vehicle-card">
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-pickup"></use></svg>
             <h3>Pickup truck</h3>
             <p>Good for small household moves, shop deliveries, and narrow streets.</p>
             <p><strong>Typical capacity: 500–1,500 kg</strong></p>
           </article>
           <article class="vehicle-card">
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-mini"></use></svg>
             <h3>Mini truck</h3>
             <p>A compact option for local deliveries and smaller commercial loads.</p>
             <p><strong>Typical capacity: 750–2,000 kg</strong></p>
           </article>
           <article class="vehicle-card">
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-eicher"></use></svg>
             <h3>Eicher truck</h3>
             <p>For larger household moves, building supplies, and medium freight.</p>
             <p><strong>Typical capacity: 3,000–7,000 kg</strong></p>
           </article>
           <article class="vehicle-card">
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-van"></use></svg>
             <h3>Cargo van</h3>
             <p>Covered transport for boxes, appliances, and goods needing protection.</p>
             <p><strong>Typical capacity: 500–1,500 kg</strong></p>
           </article>
           <article class="vehicle-card">
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-lorry"></use></svg>
             <h3>Large lorry</h3>
             <p>Suitable for high-volume freight and long-distance transport.</p>
             <p><strong>Typical capacity: 8,000–15,000 kg</strong></p>
           </article>
           <article class="vehicle-card">
+            <svg class="vehicle-render vehicle-render-card" viewBox="0 0 360 220" aria-hidden="true"><use href="#vehicle-container"></use></svg>
             <h3>Container truck</h3>
             <p>Enclosed long-haul transport for bulk cargo and protected shipments.</p>
             <p><strong>Typical capacity: 10,000–25,000 kg</strong></p>
