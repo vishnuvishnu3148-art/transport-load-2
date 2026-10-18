@@ -154,30 +154,6 @@
       font-size: 14px;
     }
 
-    .portal-switch {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 24px;
-      padding: 4px;
-      border-radius: 10px;
-      background: #edf2ee;
-    }
-
-    .portal-switch button {
-      padding: 10px 12px;
-      border: 0;
-      border-radius: 7px;
-      color: #4c6057;
-      background: transparent;
-      font-weight: 700;
-    }
-
-    .portal-switch button[aria-pressed="true"] {
-      color: white;
-      background: #176b52;
-    }
-
     .navbar {
       display: flex;
       align-items: center;
@@ -568,67 +544,6 @@
       background: #fff9f0;
     }
 
-    .status-badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 999px;
-      color: #176b52;
-      background: #edf6f0;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .client-order {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: start;
-      padding: 16px 0;
-      border-bottom: 1px solid #edf1ee;
-    }
-
-    .client-order:last-child {
-      border-bottom: 0;
-    }
-
-    .client-order h3 {
-      margin: 0 0 6px;
-      color: #12372d;
-      font-size: 16px;
-    }
-
-    .client-order p {
-      margin: 4px 0;
-      color: #65736e;
-      font-size: 14px;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-
-    .client-order-meta {
-      display: grid;
-      justify-items: end;
-      gap: 8px;
-    }
-
-    .status-control {
-      padding: 8px;
-      border: 1px solid #cbd5ce;
-      border-radius: 8px;
-      background: white;
-      font: inherit;
-    }
-
-    .storage-notice {
-      padding: 12px;
-      border: 1px solid #f3d2a7;
-      border-radius: 8px;
-      color: #704214;
-      background: #fff9f0;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
     .public-header {
       display: flex;
       align-items: center;
@@ -730,57 +645,6 @@
       background: rgba(255, 255, 255, 0.1);
       font-weight: 700;
       text-decoration: none;
-    }
-
-    .public-login-panel {
-      width: 100%;
-      max-width: 430px;
-      justify-self: end;
-      padding: 26px;
-      color: #1f2937;
-      box-shadow: 0 16px 36px rgba(8, 34, 25, 0.2);
-    }
-
-    .public-login-panel h2 {
-      margin: 0 0 8px;
-      color: #12372d;
-    }
-
-    .public-login-panel > p:not(.demo):not(.error) {
-      margin: 0 0 16px;
-      color: #65736e;
-      font-size: 14px;
-    }
-
-    .public-login-panel label {
-      margin: 12px 0 6px;
-      font-size: 14px;
-    }
-
-    .public-login-panel input {
-      min-height: 44px;
-    }
-
-    .public-login-panel .primary-button {
-      width: 100%;
-      margin-top: 16px;
-    }
-
-    .public-login-panel .demo {
-      margin: 12px 0 0;
-    }
-
-    .public-login-panel .portal-switch {
-      margin-bottom: 18px;
-    }
-
-    .public-portal-link {
-      display: block;
-      margin-top: 12px;
-      color: #176b52;
-      font-size: 13px;
-      font-weight: 700;
-      text-align: center;
     }
 
     .public-section {
@@ -957,14 +821,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .client-order {
-        grid-template-columns: 1fr;
-      }
-
-      .client-order-meta {
-        justify-items: start;
-      }
-
       .public-header {
         align-items: flex-start;
         flex-direction: column;
@@ -1002,10 +858,6 @@
         padding: 28px 22px;
       }
 
-      .public-login-panel {
-        justify-self: stretch;
-        padding: 22px;
-      }
     }
   </style>
 </head>
@@ -1014,16 +866,12 @@
     <section class="intro">
       <p class="public-eyebrow">Load Shift transport</p>
       <h1>Move your load with confidence.</h1>
-      <p>Sign in to request a delivery or manage transport operations. You can also explore our public website without signing in.</p>
+      <p>Sign in to manage transport operations. You can also explore our public website without signing in.</p>
       <button class="secondary-button" type="button" data-show-public>View public website</button>
     </section>
 
     <section class="login-area">
       <form id="loginForm" class="login-card">
-        <div class="portal-switch" aria-label="Choose a portal">
-          <button type="button" data-login-role="admin" aria-pressed="true">Admin portal</button>
-          <button type="button" data-login-role="client" aria-pressed="false">Client portal</button>
-        </div>
         <h2 id="loginHeading">Welcome back</h2>
         <p id="loginDescription">Log in to manage loads and transport orders.</p>
 
@@ -1047,7 +895,6 @@
         <a href="#services">Services</a>
         <a href="#estimate">Cost estimator</a>
         <button class="primary-button" type="button" data-show-login>Sign in</button>
-        <button class="primary-button" type="button" data-open-portal="client">Client portal</button>
       </nav>
     </header>
 
@@ -1058,7 +905,6 @@
           <h1 id="publicHeroHeading">Your goods.<br>Your route.<br>Handled with care.</h1>
           <p>Explore transport options, get a quick sample estimate, and keep your delivery plans in one place.</p>
           <div class="public-hero-actions">
-            <button class="primary-button" type="button" data-open-portal="client">Plan a delivery</button>
             <a class="secondary-button" href="#services">Explore services</a>
           </div>
         </div>
@@ -1142,7 +988,7 @@
               <p id="publicCostBreakdown" class="form-note">A sample estimate will appear as you enter your details.</p>
             </div>
             <p class="form-note">Sample only, not a confirmed quote. Actual charges depend on provider, route, and other services.</p>
-            <button class="primary-button" type="button" data-open-portal="client">Request a delivery</button>
+            <p class="form-note">Sign in to place a transport order.</p>
           </aside>
         </div>
       </section>
@@ -1151,108 +997,6 @@
         <span>Load Shift · Transport planning made simpler.</span>
         <button type="button" data-open-portal="admin">Admin sign in</button>
       </footer>
-    </main>
-  </div>
-
-  <!-- Client portal -->
-  <div id="clientPage" class="hidden">
-    <nav class="navbar" aria-label="Client navigation">
-      <div class="brand">Load Shift · Client</div>
-      <div class="nav-links">
-        <button id="clientLogoutButton" type="button">Log out</button>
-      </div>
-    </nav>
-    <main class="dashboard">
-      <header class="welcome">
-        <div>
-          <h1 id="clientWelcome">Your delivery workspace</h1>
-          <p>Request transport and keep an eye on your shipment status.</p>
-        </div>
-      </header>
-
-      <section class="summary" aria-label="Shipment summary">
-        <article class="summary-card">
-          <span>Total requests</span>
-          <strong id="clientRequestCount">0</strong>
-        </article>
-        <article class="summary-card">
-          <span>In progress</span>
-          <strong id="clientActiveCount">0</strong>
-        </article>
-        <article class="summary-card">
-          <span>Delivered</span>
-          <strong id="clientDeliveredCount">0</strong>
-        </article>
-        <article class="summary-card">
-          <span>Portal</span>
-          <strong style="font-size: 18px;">Client</strong>
-        </article>
-      </section>
-
-      <div class="columns">
-        <section class="panel">
-          <h2>Request a delivery</h2>
-          <p class="panel-description">Share your route and load details to get an indicative fare.</p>
-          <form id="clientOrderForm">
-            <div class="form-grid">
-              <div class="full-width">
-                <label for="clientName">Your name</label>
-                <input id="clientName" type="text" autocomplete="name" placeholder="Enter your name" required>
-              </div>
-              <div>
-                <label for="clientPhone">Contact phone</label>
-                <input id="clientPhone" type="tel" autocomplete="tel" placeholder="Enter your phone number" required>
-              </div>
-              <div>
-                <label for="clientVehicle">Transport vehicle</label>
-                <select id="clientVehicle" required>
-                  <option value="pickup">Pickup truck</option>
-                  <option value="mini">Mini truck</option>
-                  <option value="eicher">Eicher truck</option>
-                  <option value="van">Cargo van</option>
-                  <option value="lorry">Large lorry</option>
-                  <option value="container">Container truck</option>
-                </select>
-              </div>
-              <div class="full-width">
-                <label for="clientPickup">Pickup location</label>
-                <input id="clientPickup" type="text" placeholder="City, area, or full address" required>
-              </div>
-              <div class="full-width">
-                <label for="clientDelivery">Delivery location</label>
-                <input id="clientDelivery" type="text" placeholder="City, area, or full address" required>
-              </div>
-              <div>
-                <label for="clientDistance">Route distance (km)</label>
-                <input id="clientDistance" type="number" min="1" step="1" placeholder="Distance in kilometres" required>
-              </div>
-              <div>
-                <label for="clientWeight">Load weight (kg)</label>
-                <input id="clientWeight" type="number" min="0.1" step="0.1" placeholder="Weight in kilograms" required>
-              </div>
-              <div class="full-width">
-                <button class="primary-button" type="submit">Submit delivery request</button>
-              </div>
-            </div>
-          </form>
-          <div class="estimate" aria-live="polite">
-            <span>Indicative transport estimate</span>
-            <strong id="clientEstimatedCost">Enter a valid load weight and route distance</strong>
-            <p class="form-note">Sample estimate only; the final price must be confirmed by a transport provider.</p>
-          </div>
-          <p id="clientOrderMessage" class="success-message" role="status" aria-live="polite"></p>
-          <p class="storage-notice">
-            Demo portal: requests are saved only in this browser and are not sent to a transport provider.
-            Do not enter sensitive personal information.
-          </p>
-        </section>
-
-        <section class="panel" aria-labelledby="clientOrdersHeading">
-          <h2 id="clientOrdersHeading">Your delivery requests</h2>
-          <p class="panel-description">Use the tracking reference when asking about a request.</p>
-          <div id="clientOrders" aria-live="polite"></div>
-        </section>
-      </div>
     </main>
   </div>
 
@@ -1541,15 +1285,6 @@
           </section>
         </section>
 
-        <section class="panel" aria-labelledby="adminClientOrdersHeading">
-          <h2 id="adminClientOrdersHeading">Client delivery requests</h2>
-          <p class="panel-description">Review saved demo requests and update their tracking status.</p>
-          <div id="adminClientOrders" aria-live="polite"></div>
-          <p id="adminOrderMessage" class="success-message" role="status" aria-live="polite"></p>
-          <p class="storage-notice">
-            Demo data is stored in this browser only. Updates are not shared across devices or sent to clients.
-          </p>
-        </section>
       </section>
     </main>
   </div>
@@ -1579,25 +1314,12 @@
         container: { name: "Container truck", base: 1800, perKm: 45, perKg: 1.2 }
       };
 
-      const orderStorageKey = "loadShiftClientOrders";
-      const orderStatuses = {
-        requested: "Request received",
-        confirmed: "Confirmed",
-        in_transit: "In transit",
-        delivered: "Delivered",
-        cancelled: "Cancelled"
-      };
-      let selectedLoginRole = "admin";
-
       const publicPage = document.getElementById("publicPage");
       const loginPage = document.getElementById("loginPage");
       const detailsPage = document.getElementById("detailsPage");
-      const clientPage = document.getElementById("clientPage");
       const loginForm = document.getElementById("loginForm");
       const publicCostForm = document.getElementById("publicCostForm");
       const logoutButton = document.getElementById("logoutButton");
-      const clientLogoutButton = document.getElementById("clientLogoutButton");
-      const clientOrderForm = document.getElementById("clientOrderForm");
       const costForm = document.getElementById("costForm");
       const orderForm = document.getElementById("orderForm");
       const paymentPanel = document.getElementById("paymentPanel");
@@ -1607,204 +1329,20 @@
       const vehicleForm = document.getElementById("vehicleForm");
       const assignButton = document.getElementById("assignButton");
 
-      if (!publicPage || !loginPage || !detailsPage || !clientPage || !loginForm || !publicCostForm || !logoutButton || !clientLogoutButton || !clientOrderForm || !costForm || !orderForm || !paymentPanel || !payeeUpiId || !upiPayButton || !itemForm || !vehicleForm || !assignButton) {
+      if (!publicPage || !loginPage || !detailsPage || !loginForm || !publicCostForm || !logoutButton || !costForm || !orderForm || !paymentPanel || !payeeUpiId || !upiPayButton || !itemForm || !vehicleForm || !assignButton) {
         return;
       }
 
-      function readClientOrders() {
-        try {
-          const storedOrders = window.localStorage.getItem(orderStorageKey);
-          if (!storedOrders) {
-            return { ok: true, orders: [] };
-          }
-
-          const orders = JSON.parse(storedOrders);
-          if (!Array.isArray(orders) || orders.some(function (order) {
-            return !order || typeof order.id !== "string" ||
-              typeof order.clientName !== "string" ||
-              typeof order.pickup !== "string" ||
-              typeof order.delivery !== "string" ||
-              !Object.prototype.hasOwnProperty.call(orderStatuses, order.status);
-          })) {
-            throw new Error("Saved client requests have an invalid format.");
-          }
-
-          return { ok: true, orders };
-        } catch (error) {
-          console.error("Unable to load client delivery requests.", error);
-          return { ok: false, orders: [] };
-        }
-      }
-
-      function writeClientOrders(orders) {
-        try {
-          window.localStorage.setItem(orderStorageKey, JSON.stringify(orders));
-          return true;
-        } catch (error) {
-          console.error("Unable to save client delivery requests.", error);
-          return false;
-        }
-      }
-
-      function appendTextElement(parent, tagName, className, text) {
-        const element = document.createElement(tagName);
-        if (className) {
-          element.className = className;
-        }
-        element.textContent = text;
-        parent.appendChild(element);
-        return element;
-      }
-
-      function displayStoredOrders(container, orders, isAdminView) {
-        container.replaceChildren();
-        const visibleOrders = isAdminView
-          ? orders
-          : orders.filter(order => order.clientId === "client");
-
-        if (visibleOrders.length === 0) {
-          appendTextElement(
-            container,
-            "p",
-            "panel-description",
-            isAdminView
-              ? "No client delivery requests yet."
-              : "You have no delivery requests yet. Submit a request to get started."
-          );
-          return;
-        }
-
-        visibleOrders.slice().reverse().forEach(function (order) {
-          const article = document.createElement("article");
-          article.className = "client-order";
-          const details = document.createElement("div");
-          appendTextElement(details, "h3", "", `${order.pickup} → ${order.delivery}`);
-          appendTextElement(details, "p", "", `Tracking reference: ${order.id}`);
-          appendTextElement(details, "p", "", `${order.clientName} · ${order.phone}`);
-          appendTextElement(
-            details,
-            "p",
-            "",
-            `${order.vehicleName} · ${order.weight} kg · ${order.distance} km · ${formatRupees(order.amount)}`
-          );
-          const createdAt = new Date(order.createdAt);
-          if (Number.isFinite(createdAt.getTime())) {
-            appendTextElement(details, "p", "", `Submitted ${createdAt.toLocaleString()}`);
-          }
-          article.appendChild(details);
-
-          const metadata = document.createElement("div");
-          metadata.className = "client-order-meta";
-          if (isAdminView) {
-            const label = document.createElement("label");
-            label.textContent = "Tracking status";
-            const select = document.createElement("select");
-            select.className = "status-control";
-            select.dataset.orderId = order.id;
-            select.setAttribute("aria-label", `Tracking status for ${order.id}`);
-            Object.entries(orderStatuses).forEach(function ([status, labelText]) {
-              const option = document.createElement("option");
-              option.value = status;
-              option.textContent = labelText;
-              option.selected = status === order.status;
-              select.appendChild(option);
-            });
-            label.appendChild(select);
-            metadata.appendChild(label);
-          } else {
-            const status = document.createElement("span");
-            status.className = "status-badge";
-            status.textContent = orderStatuses[order.status];
-            metadata.appendChild(status);
-          }
-          article.appendChild(metadata);
-          container.appendChild(article);
-        });
-      }
-
-      function renderSavedOrders() {
-        const clientOrders = document.getElementById("clientOrders");
-        const adminOrders = document.getElementById("adminClientOrders");
-        const requestCount = document.getElementById("clientRequestCount");
-        const activeCount = document.getElementById("clientActiveCount");
-        const deliveredCount = document.getElementById("clientDeliveredCount");
-        const clientMessage = document.getElementById("clientOrderMessage");
-        const stored = readClientOrders();
-
-        if (!stored.ok) {
-          if (clientOrders) {
-            clientOrders.replaceChildren();
-            appendTextElement(clientOrders, "p", "error", "Saved requests could not be read. Clear the invalid browser data before continuing.");
-          }
-          if (adminOrders) {
-            adminOrders.replaceChildren();
-            appendTextElement(adminOrders, "p", "error", "Saved requests could not be read. Clear the invalid browser data before continuing.");
-          }
-          if (clientMessage) {
-            clientMessage.textContent = "Unable to load saved requests in this browser.";
-          }
-          return false;
-        }
-
-        const clientRecords = stored.orders.filter(order => order.clientId === "client");
-        if (requestCount) requestCount.textContent = String(clientRecords.length);
-        if (activeCount) {
-          activeCount.textContent = String(clientRecords.filter(order =>
-            order.status === "confirmed" || order.status === "in_transit"
-          ).length);
-        }
-        if (deliveredCount) {
-          deliveredCount.textContent = String(clientRecords.filter(order => order.status === "delivered").length);
-        }
-        if (clientOrders) displayStoredOrders(clientOrders, stored.orders, false);
-        if (adminOrders) displayStoredOrders(adminOrders, stored.orders, true);
-        return true;
-      }
-
-      function updateLoginRole(role) {
-        selectedLoginRole = role;
-        const heading = document.getElementById("loginHeading");
-        const description = document.getElementById("loginDescription");
-        const demo = document.getElementById("loginDemo");
-        const error = document.getElementById("loginError");
-        const username = document.getElementById("username");
-
-        document.querySelectorAll("[data-login-role]").forEach(function (button) {
-          button.setAttribute("aria-pressed", String(button.dataset.loginRole === role));
-        });
-        if (heading) heading.textContent = role === "client" ? "Client sign in" : "Welcome back";
-        if (description) {
-          description.textContent = role === "client"
-            ? "Sign in to request and track your deliveries."
-            : "Log in to manage loads and transport orders.";
-        }
-        if (demo) {
-          demo.textContent = role === "client"
-            ? "Demo client login: client / 1234"
-            : "Demo admin login: admin / 1234";
-        }
-        if (username) username.placeholder = role === "client" ? "Enter client username" : "Enter admin username";
-        if (error) error.textContent = "";
-      }
-
-      document.querySelectorAll("[data-login-role]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          updateLoginRole(button.dataset.loginRole);
-        });
-      });
-
-      function openPortal(role) {
-        selectedLoginRole = role === "admin" ? "admin" : "client";
+      function openPortal() {
         publicPage.classList.add("hidden");
         loginPage.classList.remove("hidden");
-        updateLoginRole(selectedLoginRole);
         loginForm.reset();
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       document.querySelectorAll("[data-open-portal]").forEach(function (button) {
         button.addEventListener("click", function () {
-          openPortal(button.dataset.openPortal);
+          openPortal();
         });
       });
 
@@ -1818,7 +1356,7 @@
 
       document.querySelectorAll("[data-show-login]").forEach(function (button) {
         button.addEventListener("click", function () {
-          openPortal("admin");
+          openPortal();
         });
       });
 
@@ -1836,25 +1374,16 @@
         const username = usernameInput.value.trim();
         const password = passwordInput.value;
 
-        const expectedUsername = selectedLoginRole === "client" ? "client" : "admin";
-        if (username !== expectedUsername || password !== "1234") {
+        if (username !== "admin" || password !== "1234") {
           error.textContent = "Invalid username or password.";
           return;
         }
 
         error.textContent = "";
         loginPage.classList.add("hidden");
-        if (selectedLoginRole === "client") {
-          clientPage.classList.remove("hidden");
-          const clientWelcome = document.getElementById("clientWelcome");
-          if (clientWelcome) clientWelcome.textContent = `Welcome, ${username}`;
-          renderSavedOrders();
-        } else {
-          detailsPage.classList.remove("hidden");
-          render();
-          renderSavedOrders();
-          showPage("home");
-        }
+        detailsPage.classList.remove("hidden");
+        render();
+        showPage("home");
       });
 
       function returnToLogin(portal) {
@@ -1863,12 +1392,7 @@
         loginForm.reset();
         const loginError = document.getElementById("loginError");
         if (loginError) loginError.textContent = "";
-        updateLoginRole("admin");
       }
-
-      clientLogoutButton.addEventListener("click", function () {
-        returnToLogin(clientPage);
-      });
 
       function showPage(pageName) {
         document.querySelectorAll("[data-page-content]").forEach(function (page) {
@@ -1983,119 +1507,6 @@
 
       publicCostForm.addEventListener("input", updatePublicCostEstimate);
       publicCostForm.addEventListener("change", updatePublicCostEstimate);
-
-      function updateClientEstimate() {
-        const vehicle = document.getElementById("clientVehicle");
-        const weight = document.getElementById("clientWeight");
-        const distance = document.getElementById("clientDistance");
-        const estimateText = document.getElementById("clientEstimatedCost");
-
-        if (!vehicle || !weight || !distance || !estimateText) {
-          return null;
-        }
-
-        const estimate = getCostEstimate(vehicle.value, Number(weight.value), Number(distance.value));
-        estimateText.textContent = estimate
-          ? formatRupees(estimate.total)
-          : "Enter a valid load weight and route distance";
-        return estimate;
-      }
-
-      ["clientVehicle", "clientWeight", "clientDistance"].forEach(function (id) {
-        const input = document.getElementById(id);
-        if (input) input.addEventListener("input", updateClientEstimate);
-      });
-
-      clientOrderForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const message = document.getElementById("clientOrderMessage");
-        const name = document.getElementById("clientName");
-        const phone = document.getElementById("clientPhone");
-        const pickup = document.getElementById("clientPickup");
-        const delivery = document.getElementById("clientDelivery");
-        const vehicle = document.getElementById("clientVehicle");
-        const weight = document.getElementById("clientWeight");
-        const distance = document.getElementById("clientDistance");
-        if (!message || !name || !phone || !pickup || !delivery || !vehicle || !weight || !distance) {
-          return;
-        }
-
-        const estimate = getCostEstimate(vehicle.value, Number(weight.value), Number(distance.value));
-        if (!estimate) {
-          message.textContent = "Enter a valid vehicle, load weight, and route distance.";
-          return;
-        }
-
-        const stored = readClientOrders();
-        if (!stored.ok) {
-          message.textContent = "Saved requests could not be read. Your request was not submitted.";
-          return;
-        }
-
-        const trackingId = `LS-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
-        const order = {
-          id: trackingId,
-          clientId: "client",
-          clientName: name.value.trim(),
-          phone: phone.value.trim(),
-          pickup: pickup.value.trim(),
-          delivery: delivery.value.trim(),
-          vehicleName: estimate.rate.name,
-          weight: Number(weight.value),
-          distance: Number(distance.value),
-          amount: estimate.total,
-          status: "requested",
-          createdAt: new Date().toISOString()
-        };
-
-        if (!writeClientOrders([...stored.orders, order])) {
-          message.textContent = "Unable to save your request in this browser. Please check browser storage and try again.";
-          return;
-        }
-
-        message.textContent = `Request submitted. Your tracking reference is ${trackingId}.`;
-        clientOrderForm.reset();
-        updateClientEstimate();
-        renderSavedOrders();
-      });
-
-      const adminOrders = document.getElementById("adminClientOrders");
-      if (adminOrders) {
-        adminOrders.addEventListener("change", function (event) {
-          const target = event.target;
-          if (!(target instanceof HTMLSelectElement) || !target.dataset.orderId) {
-            return;
-          }
-
-          const message = document.getElementById("adminOrderMessage");
-          const stored = readClientOrders();
-          const order = stored.ok
-            ? stored.orders.find(entry => entry.id === target.dataset.orderId)
-            : null;
-          if (!stored.ok || !order || !Object.prototype.hasOwnProperty.call(orderStatuses, target.value)) {
-            if (message) message.textContent = "Unable to update this request. Refresh the page and try again.";
-            renderSavedOrders();
-            return;
-          }
-
-          order.status = target.value;
-          if (!writeClientOrders(stored.orders)) {
-            if (message) message.textContent = "Unable to save the status update in this browser.";
-            renderSavedOrders();
-            return;
-          }
-
-          if (message) message.textContent = `Tracking status updated for ${order.id}.`;
-          renderSavedOrders();
-        });
-      }
-
-      window.addEventListener("storage", function (event) {
-        if (event.key === orderStorageKey) {
-          renderSavedOrders();
-        }
-      });
 
       function updateCostEstimate(vehicleId, weightId, distanceId) {
         const vehicleElement = document.getElementById(vehicleId);
