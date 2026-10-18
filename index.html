@@ -57,6 +57,21 @@
       line-height: 1.6;
     }
 
+    .intro .secondary-button {
+      align-self: flex-start;
+      margin-top: 12px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 8px;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+    }
+
+    .intro .secondary-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     .login-area {
       display: grid;
       place-items: center;
@@ -995,12 +1010,43 @@
   </style>
 </head>
 <body>
-  <div id="publicPage">
+  <main id="loginPage" class="login-page">
+    <section class="intro">
+      <p class="public-eyebrow">Load Shift transport</p>
+      <h1>Move your load with confidence.</h1>
+      <p>Sign in to request a delivery or manage transport operations. You can also explore our public website without signing in.</p>
+      <button class="secondary-button" type="button" data-show-public>View public website</button>
+    </section>
+
+    <section class="login-area">
+      <form id="loginForm" class="login-card">
+        <div class="portal-switch" aria-label="Choose a portal">
+          <button type="button" data-login-role="admin" aria-pressed="true">Admin portal</button>
+          <button type="button" data-login-role="client" aria-pressed="false">Client portal</button>
+        </div>
+        <h2 id="loginHeading">Welcome back</h2>
+        <p id="loginDescription">Log in to manage loads and transport orders.</p>
+
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="Enter admin username" autocomplete="username" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
+
+        <button class="primary-button" type="submit">Log in</button>
+        <p id="loginError" class="error" role="alert"></p>
+        <p id="loginDemo" class="demo">Demo admin login: <strong>admin</strong> / <strong>1234</strong></p>
+      </form>
+    </section>
+  </main>
+
+  <div id="publicPage" class="hidden">
     <header class="public-header">
       <a class="public-brand" href="#publicPage" aria-label="Load Shift home">Load Shift</a>
       <nav class="public-nav" aria-label="Public navigation">
         <a href="#services">Services</a>
         <a href="#estimate">Cost estimator</a>
+        <button class="primary-button" type="button" data-show-login>Sign in</button>
         <button class="primary-button" type="button" data-open-portal="client">Client portal</button>
       </nav>
     </header>
@@ -1016,25 +1062,22 @@
             <a class="secondary-button" href="#services">Explore services</a>
           </div>
         </div>
-        <form id="loginForm" class="login-card public-login-panel">
-          <div class="portal-switch" aria-label="Choose a portal">
-            <button type="button" data-login-role="admin" aria-pressed="true">Admin portal</button>
-            <button type="button" data-login-role="client" aria-pressed="false">Client portal</button>
-          </div>
-          <h2 id="loginHeading">Welcome back</h2>
-          <p id="loginDescription">Log in to manage loads and transport orders.</p>
-
-          <label for="username">Username</label>
-          <input id="username" type="text" placeholder="Enter admin username" autocomplete="username" required>
-
-          <label for="password">Password</label>
-          <input id="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
-
-          <button class="primary-button" type="submit">Log in</button>
-          <p id="loginError" class="error" role="alert"></p>
-          <p id="loginDemo" class="demo">Demo admin login: <strong>admin</strong> / <strong>1234</strong></p>
-          <a class="public-portal-link" href="#services">Explore the public website</a>
-        </form>
+        <div class="public-illustration">
+          <svg viewBox="0 0 360 245" role="img" aria-labelledby="publicTruckTitle">
+            <title id="publicTruckTitle">A cargo truck carrying a carefully packed load</title>
+            <circle cx="282" cy="53" r="29" fill="#c7f1d2" opacity=".18"/>
+            <path d="M39 189h284" stroke="#c7f1d2" stroke-linecap="round" stroke-width="8"/>
+            <path d="M55 90h167v90H55z" fill="#f4f7f4"/>
+            <path d="M222 120h61l40 43v17h-101z" fill="#bce3c8"/>
+            <path d="M240 129h33l27 29h-60z" fill="#4b8a71"/>
+            <path d="M66 103h45v64H66zM120 103h45v64h-45zM174 103h37v64h-37z" fill="#d5a66f"/>
+            <path d="M88 103v64m54-64v64m50-64v64" stroke="#fff1d8" stroke-width="3"/>
+            <circle cx="111" cy="190" r="19" fill="#173c31" stroke="#e9f3eb" stroke-width="7"/>
+            <circle cx="269" cy="190" r="19" fill="#173c31" stroke="#e9f3eb" stroke-width="7"/>
+            <path d="M73 72h134" stroke="#c7f1d2" stroke-linecap="round" stroke-width="5"/>
+            <path d="m193 60 14 12-14 12" fill="none" stroke="#c7f1d2" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+          </svg>
+        </div>
       </section>
 
       <section id="services" class="public-section" aria-labelledby="servicesHeading">
@@ -1547,6 +1590,7 @@
       let selectedLoginRole = "admin";
 
       const publicPage = document.getElementById("publicPage");
+      const loginPage = document.getElementById("loginPage");
       const detailsPage = document.getElementById("detailsPage");
       const clientPage = document.getElementById("clientPage");
       const loginForm = document.getElementById("loginForm");
@@ -1563,7 +1607,7 @@
       const vehicleForm = document.getElementById("vehicleForm");
       const assignButton = document.getElementById("assignButton");
 
-      if (!publicPage || !detailsPage || !clientPage || !loginForm || !publicCostForm || !logoutButton || !clientLogoutButton || !clientOrderForm || !costForm || !orderForm || !paymentPanel || !payeeUpiId || !upiPayButton || !itemForm || !vehicleForm || !assignButton) {
+      if (!publicPage || !loginPage || !detailsPage || !clientPage || !loginForm || !publicCostForm || !logoutButton || !clientLogoutButton || !clientOrderForm || !costForm || !orderForm || !paymentPanel || !payeeUpiId || !upiPayButton || !itemForm || !vehicleForm || !assignButton) {
         return;
       }
 
@@ -1751,14 +1795,30 @@
 
       function openPortal(role) {
         selectedLoginRole = role === "admin" ? "admin" : "client";
+        publicPage.classList.add("hidden");
+        loginPage.classList.remove("hidden");
         updateLoginRole(selectedLoginRole);
         loginForm.reset();
-        loginForm.scrollIntoView({ behavior: "smooth", block: "center" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       document.querySelectorAll("[data-open-portal]").forEach(function (button) {
         button.addEventListener("click", function () {
           openPortal(button.dataset.openPortal);
+        });
+      });
+
+      document.querySelectorAll("[data-show-public]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          loginPage.classList.add("hidden");
+          publicPage.classList.remove("hidden");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+
+      document.querySelectorAll("[data-show-login]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          openPortal("admin");
         });
       });
 
@@ -1783,7 +1843,7 @@
         }
 
         error.textContent = "";
-        publicPage.classList.add("hidden");
+        loginPage.classList.add("hidden");
         if (selectedLoginRole === "client") {
           clientPage.classList.remove("hidden");
           const clientWelcome = document.getElementById("clientWelcome");
@@ -1799,7 +1859,7 @@
 
       function returnToLogin(portal) {
         portal.classList.add("hidden");
-        publicPage.classList.remove("hidden");
+        loginPage.classList.remove("hidden");
         loginForm.reset();
         const loginError = document.getElementById("loginError");
         if (loginError) loginError.textContent = "";
