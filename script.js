@@ -24,83 +24,37 @@
       };
 
       const publicPage = document.getElementById("publicPage");
-      const loginPage = document.getElementById("loginPage");
       const detailsPage = document.getElementById("detailsPage");
-      const loginForm = document.getElementById("loginForm");
       const publicCostForm = document.getElementById("publicCostForm");
       const logoutButton = document.getElementById("logoutButton");
       const costForm = document.getElementById("costForm");
       const orderForm = document.getElementById("orderForm");
-      const paymentPanel = document.getElementById("paymentPanel");
-      const payeeUpiId = document.getElementById("payeeUpiId");
-      const upiPayButton = document.getElementById("upiPayButton");
       const itemForm = document.getElementById("itemForm");
       const vehicleForm = document.getElementById("vehicleForm");
       const assignButton = document.getElementById("assignButton");
 
-      if (!publicPage || !loginPage || !detailsPage || !loginForm || !publicCostForm || !logoutButton || !costForm || !orderForm || !paymentPanel || !payeeUpiId || !upiPayButton || !itemForm || !vehicleForm || !assignButton) {
+      if (!publicPage || !detailsPage || !publicCostForm || !logoutButton || !costForm || !orderForm || !itemForm || !vehicleForm || !assignButton) {
         return;
       }
 
-      function openPortal() {
+      function openDashboard() {
         publicPage.classList.add("hidden");
-        loginPage.classList.remove("hidden");
-        loginForm.reset();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      document.querySelectorAll("[data-open-portal]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          openPortal();
-        });
-      });
-
-      document.querySelectorAll("[data-show-public]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          loginPage.classList.add("hidden");
-          publicPage.classList.remove("hidden");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-      });
-
-      document.querySelectorAll("[data-show-login]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          openPortal();
-        });
-      });
-
-      loginForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const usernameInput = document.getElementById("username");
-        const passwordInput = document.getElementById("password");
-        const error = document.getElementById("loginError");
-
-        if (!usernameInput || !passwordInput || !error) {
-          return;
-        }
-
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value;
-
-        if (username !== "admin" || password !== "1234") {
-          error.textContent = "Invalid username or password.";
-          return;
-        }
-
-        error.textContent = "";
-        loginPage.classList.add("hidden");
         detailsPage.classList.remove("hidden");
         render();
         showPage("home");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      document.querySelectorAll("[data-open-dashboard]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          openDashboard();
+        });
       });
 
-      function returnToLogin(portal) {
-        portal.classList.add("hidden");
-        loginPage.classList.remove("hidden");
-        loginForm.reset();
-        const loginError = document.getElementById("loginError");
-        if (loginError) loginError.textContent = "";
+      function returnToPublic() {
+        detailsPage.classList.add("hidden");
+        publicPage.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       function showPage(pageName) {
@@ -134,7 +88,7 @@
       });
 
       logoutButton.addEventListener("click", function () {
-        returnToLogin(detailsPage);
+        returnToPublic();
       });
 
       function render() {
@@ -252,124 +206,47 @@
         updateCostEstimate("costVehicle", "costWeight", "costDistance");
       });
 
-      let currentOrder = null;
-
-      function buildUpiPaymentUrl() {
-        if (!currentOrder) {
-          return null;
-        }
-
-        const payee = payeeUpiId.value.trim();
-        if (!/^[A-Za-z0-9._-]{2,256}@[A-Za-z0-9.-]{2,64}$/.test(payee)) {
-          return null;
-        }
-
-        const parameters = new URLSearchParams({
-          pa: payee,
-          pn: "Load Transport Agencies",
-          am: currentOrder.amount.toFixed(2),
-          cu: "INR",
-          tn: `Transport ${currentOrder.pickup} to ${currentOrder.delivery}`
-        });
-        return `upi://pay?${parameters.toString()}`;
-      }
-
-      function updateUpiPaymentLink() {
-        const paymentUrl = buildUpiPaymentUrl();
-        upiPayButton.href = paymentUrl || "#";
-        upiPayButton.setAttribute("aria-disabled", String(!paymentUrl));
-        const paymentMessage = document.getElementById("paymentMessage");
-        if (paymentMessage) {
-          paymentMessage.textContent = "";
+      function clearOrderPreview() {
+        const orderMessage = document.getElementById("orderMessage");
+        if (orderMessage) {
+          orderMessage.textContent = "";
         }
       }
 
-      orderForm.addEventListener("input", function () {
-        if (currentOrder) {
-          currentOrder = null;
-          paymentPanel.classList.add("hidden");
-          const orderMessage = document.getElementById("orderMessage");
-          if (orderMessage) {
-            orderMessage.textContent =
-              "Order details changed. Submit the form again to review the updated fare.";
-          }
-        }
-      });
-
-      payeeUpiId.addEventListener("input", updateUpiPaymentLink);
-
-      orderForm.addEventListener("change", function () {
-        if (currentOrder) {
-          currentOrder = null;
-          paymentPanel.classList.add("hidden");
-          const orderMessage = document.getElementById("orderMessage");
-          if (orderMessage) {
-            orderMessage.textContent =
-              "Order details changed. Submit the form again to review the updated fare.";
-          }
-        }
-      });
+      orderForm.addEventListener("input", clearOrderPreview);
+      orderForm.addEventListener("change", clearOrderPreview);
 
       orderForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
         const pickup = document.getElementById("pickupLocation");
         const delivery = document.getElementById("deliveryLocation");
-        const customer = document.getElementById("customerName");
-        const phone = document.getElementById("customerPhone");
         const orderVehicle = document.getElementById("orderVehicle");
         const orderWeight = document.getElementById("orderWeight");
         const orderDistance = document.getElementById("orderDistance");
         const orderMessage = document.getElementById("orderMessage");
-        const paymentSummary = document.getElementById("paymentSummary");
 
-        if (!pickup || !delivery || !customer || !phone || !orderVehicle || !orderWeight || !orderDistance || !orderMessage || !paymentSummary) {
+        if (!pickup || !delivery || !orderVehicle || !orderWeight || !orderDistance || !orderMessage) {
           return;
         }
 
         const pickupValue = pickup.value.trim();
         const deliveryValue = delivery.value.trim();
-        const customerValue = customer.value.trim();
-        const phoneValue = phone.value.trim();
         const vehicleType = orderVehicle.value;
         const weight = Number(orderWeight.value);
         const distance = Number(orderDistance.value);
         const estimate = updateCostEstimate("orderVehicle", "orderWeight", "orderDistance");
 
-        if (!pickupValue || !deliveryValue || !customerValue || !phoneValue || !estimate) {
-          orderMessage.textContent = "Complete the pickup, delivery, contact, vehicle, load, and distance details.";
-          paymentPanel.classList.add("hidden");
+        if (!pickupValue || !deliveryValue || !estimate) {
+          orderMessage.textContent = "Complete the pickup, delivery, vehicle, load, and distance details.";
           return;
         }
 
         const rate = transportRates[vehicleType] || { name: "Selected vehicle" };
-        currentOrder = { pickup: pickupValue, delivery: deliveryValue, amount: estimate.total };
-        paymentSummary.textContent =
-          `${customerValue} · ${phoneValue} | ${pickupValue} → ${deliveryValue} | ` +
-          `${rate.name} | ${weight} kg | ${distance} km | Estimated fare: ${formatRupees(estimate.total)}`;
-        orderMessage.textContent = "Order details saved for this session. Enter the provider's UPI ID to prepare payment.";
-        paymentPanel.classList.remove("hidden");
-        updateUpiPaymentLink();
-      });
-
-      upiPayButton.addEventListener("click", function (event) {
-        const paymentUrl = buildUpiPaymentUrl();
-        const paymentMessage = document.getElementById("paymentMessage");
-
-        if (!paymentMessage) {
-          return;
-        }
-
-        if (!paymentUrl) {
-          event.preventDefault();
-          paymentMessage.textContent = "Enter a valid provider UPI ID, for example provider@bank.";
-          payeeUpiId.focus();
-          return;
-        }
-
-        upiPayButton.href = paymentUrl;
-        paymentMessage.textContent =
-          "Continue in your UPI app. This demo cannot verify payment; confirm payment with your provider.";
+        orderMessage.textContent =
+          `Demo estimate: ${pickupValue} to ${deliveryValue} | ${rate.name} | ` +
+          `${weight} kg | ${distance} km | ${formatRupees(estimate.total)}. ` +
+          "No order was sent and no payment was taken.";
       });
 
       itemForm.addEventListener("submit", function (event) {

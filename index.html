@@ -140,39 +140,13 @@
       </symbol>
     </defs>
   </svg>
-  <main id="loginPage" class="login-page">
-    <section class="intro">
-      <p class="public-eyebrow">Load Transport Agencies</p>
-      <h1>Move your load with confidence.</h1>
-      <p>Sign in to manage transport operations. You can also explore our public website without signing in.</p>
-      <button class="secondary-button" type="button" data-show-public>View public website</button>
-    </section>
-
-    <section class="login-area">
-      <form id="loginForm" class="login-card">
-        <h2 id="loginHeading">Welcome back</h2>
-        <p id="loginDescription">Log in to manage loads and transport orders.</p>
-
-        <label for="username">Username</label>
-        <input id="username" type="text" placeholder="Enter admin username" autocomplete="username" required>
-
-        <label for="password">Password</label>
-        <input id="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
-
-        <button class="primary-button" type="submit">Log in</button>
-        <p id="loginError" class="error" role="alert"></p>
-        <p id="loginDemo" class="demo">Demo admin login: <strong>admin</strong> / <strong>1234</strong></p>
-      </form>
-    </section>
-  </main>
-
-  <div id="publicPage" class="hidden">
+  <div id="publicPage">
     <header class="public-header">
       <a class="public-brand" href="#publicPage" aria-label="Load Transport Agencies home">Load Transport Agencies</a>
       <nav class="public-nav" aria-label="Public navigation">
         <a href="#services">Services</a>
         <a href="#estimate">Cost estimator</a>
-        <button class="primary-button" type="button" data-show-login>Sign in</button>
+        <button class="primary-button" type="button" data-open-dashboard>Open demo dashboard</button>
       </nav>
     </header>
 
@@ -255,14 +229,15 @@
               <p id="publicCostBreakdown" class="form-note">A sample estimate will appear as you enter your details.</p>
             </div>
             <p class="form-note">Sample only, not a confirmed quote. Actual charges depend on provider, route, and other services.</p>
-            <p class="form-note">Sign in to place a transport order.</p>
+            <p class="form-note">Open the demo dashboard to try the sample order workflow.</p>
           </aside>
         </div>
       </section>
 
       <footer class="public-footer">
         <span>Load Transport Agencies · Transport planning made simpler.</span>
-        <button type="button" data-open-portal="admin">Admin sign in</button>
+        <button type="button" data-open-dashboard>Open demo dashboard</button>
+        <p class="form-note">Demo only: no accounts, orders, or payments are processed by this site.</p>
       </footer>
     </main>
   </div>
@@ -498,10 +473,11 @@
 
       <section id="orderSection" class="page-section hidden" data-page-content="order">
         <header class="page-intro">
-          <h1>Location &amp; place an order</h1>
-          <p>Enter where the load should be collected and delivered to request transport.</p>
+          <h1>Location &amp; order preview</h1>
+          <p>Create a sample transport estimate for a route. This demo does not submit an order.</p>
         </header>
         <section class="panel">
+          <p class="form-note">Do not enter personal or payment details. Information in this demo stays in your browser and is not sent to a server.</p>
           <form id="orderForm">
             <div class="form-grid">
               <div>
@@ -531,31 +507,12 @@
                 <label for="orderWeight">Load weight (kg)</label>
                 <input id="orderWeight" type="number" min="0.1" step="0.1" value="168" required>
               </div>
-              <div>
-                <label for="customerName">Your name</label>
-                <input id="customerName" type="text" placeholder="Enter your name" required>
-              </div>
-              <div>
-                <label for="customerPhone">Contact phone</label>
-                <input id="customerPhone" type="tel" autocomplete="tel" placeholder="Enter your phone number" required>
-              </div>
               <div class="full-width">
-                <button class="primary-button" type="submit">Request transport order</button>
+                <button class="primary-button" type="submit">Preview demo estimate</button>
               </div>
             </div>
           </form>
           <p id="orderMessage" class="success-message" role="status" aria-live="polite"></p>
-
-          <section id="paymentPanel" class="panel payment-panel hidden" aria-labelledby="paymentHeading">
-            <h2 id="paymentHeading">Review order &amp; pay with UPI</h2>
-            <p class="panel-description">Check the route and estimated fare before opening your UPI app.</p>
-            <div id="paymentSummary" class="payment-summary"></div>
-            <label for="payeeUpiId">Transport provider UPI ID</label>
-            <input id="payeeUpiId" type="text" inputmode="email" autocomplete="off" placeholder="provider@bank">
-            <p class="form-note">Enter the verified UPI ID provided by your transport provider. The demo does not verify payments.</p>
-            <a id="upiPayButton" class="primary-button upi-button" href="#" role="button" aria-disabled="true">Continue to UPI payment</a>
-            <p id="paymentMessage" class="payment-message" role="status" aria-live="polite"></p>
-          </section>
         </section>
 
       </section>
